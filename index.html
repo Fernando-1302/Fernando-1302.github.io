@@ -17,8 +17,8 @@
     --green-dim: #0f6b45;
     --text: #e6edf3;
     --muted: #8b98a5;
-    --accent-glow: rgba(34, 255, 142, 0.16);
-    --accent-glow-soft: rgba(34, 255, 142, 0.08);
+    --accent-glow: rgba(34, 255, 142, 0.08);
+    --accent-glow-soft: rgba(34, 255, 142, 0.04);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -26,7 +26,7 @@
   html { scroll-behavior: smooth; }
 
   body {
-    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-family: Georgia, 'Times New Roman', 'Noto Serif', serif;
     background:
       radial-gradient(1000px 500px at 15% -10%, var(--accent-glow), transparent 55%),
       radial-gradient(700px 400px at 90% 20%, var(--accent-glow-soft), transparent 60%),
@@ -158,7 +158,7 @@
     line-height: 1.1;
     margin-bottom: 1.2rem;
   }
-  .hero h1 .accent { color: var(--green); text-shadow: 0 0 24px var(--accent-glow), 0 0 48px rgba(34,255,142,0.25); }
+  .hero h1 .accent { color: var(--green); text-shadow: 0 0 18px var(--accent-glow), 0 0 40px rgba(34,255,142,0.15); }
 
   .hero p.lead { font-size: 1.15rem; color: var(--muted); max-width: 640px; margin-bottom: 2rem; }
 
@@ -176,9 +176,9 @@
   .btn-primary {
     background: var(--green);
     color: #04180d;
-    box-shadow: 0 0 18px rgba(34, 255, 142, 0.35);
+    box-shadow: 0 0 14px rgba(34, 255, 142, 0.22);
   }
-  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(34, 255, 142, 0.55); }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 24px rgba(34, 255, 142, 0.38); }
 
   .btn-ghost {
     border: 1px solid var(--border);
@@ -209,7 +209,7 @@
     padding: 1.5rem;
     text-align: center;
   }
-  .stat-card .num { font-size: 2.2rem; font-weight: 700; color: var(--green-strong); text-shadow: 0 0 16px var(--accent-glow); }
+  .stat-card .num { font-size: 2.2rem; font-weight: 700; color: var(--green-strong); text-shadow: 0 0 12px var(--accent-glow); }
   .stat-card .label { color: var(--muted); font-size: 0.9rem; margin-top: 0.3rem; }
 
   /* ---------- Featured Skills ---------- */
@@ -225,7 +225,7 @@
     padding: 1.25rem;
     transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
   }
-  .feature-card:hover { transform: translateY(-4px); border-color: var(--green-dim); box-shadow: 0 0 24px var(--accent-glow); }
+  .feature-card:hover { transform: translateY(-4px); border-color: var(--green-dim); box-shadow: 0 0 18px var(--accent-glow); }
   .feature-icon {
     flex-shrink: 0;
     width: 52px;
@@ -343,6 +343,23 @@
   .hero p.lead { animation-delay: 0.25s; }
   .hero .btn-row { animation-delay: 0.35s; }
   .hero .contact-strip { animation-delay: 0.45s; }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+  @keyframes pulseGlow {
+    0%, 100% { box-shadow: 0 0 14px rgba(34, 255, 142, 0.22); }
+    50% { box-shadow: 0 0 22px rgba(34, 255, 142, 0.42); }
+  }
+
+  .feature-icon { animation: float 5s ease-in-out infinite; }
+  .btn-primary { animation: pulseGlow 3.5s ease-in-out infinite; }
+
+  .feature-card:nth-child(2) .feature-icon { animation-delay: 0.6s; }
+  .feature-card:nth-child(3) .feature-icon { animation-delay: 1.2s; }
+  .feature-card:nth-child(4) .feature-icon { animation-delay: 1.8s; }
+  .feature-card:nth-child(5) .feature-icon { animation-delay: 2.4s; }
 
   /* ---------- Tablets & Phones: hamburger nav (max 1024px) ---------- */
   @media (max-width: 1024px) {
