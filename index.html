@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Fernando T. Ibale Jr. — Portfolio</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --bg-alt: #111820;
+    --panel: #161e2a;
+    --panel-2: #1c2733;
+    --border: #22303f;
+    --green: #3dffa0;
+    --green-strong: #22ff8e;
+    --green-soft: #c8ffe4;
+    --green-dim: #0f6b45;
+    --text: #e6edf3;
+    --muted: #8b98a5;
+    --accent-glow: rgba(34, 255, 142, 0.16);
+    --accent-glow-soft: rgba(34, 255, 142, 0.08);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background:
+      radial-gradient(1000px 500px at 15% -10%, var(--accent-glow), transparent 55%),
+      radial-gradient(700px 400px at 90% 20%, var(--accent-glow-soft), transparent 60%),
+      var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ---------- Sidebar / Nav ---------- */
+  body { display: block; }
+
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 50;
+    width: 240px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 2.2rem;
+    padding: 2rem 1.5rem;
+    background: rgba(13, 17, 23, 0.92);
+    backdrop-filter: blur(8px);
+    border-right: 1px solid var(--border);
+  }
+
+  .brand {
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: var(--green);
+    font-size: 1.2rem;
+    text-shadow: 0 0 14px var(--accent-glow);
+  }
+  .brand span { color: var(--text); }
+
+  .nav-links { display: flex; flex-direction: column; gap: 0.4rem; }
+
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.95rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+    transition: color 0.25s, background 0.25s;
+    position: relative;
+  }
+
+  .nav-links a:hover { color: var(--text); background: var(--accent-glow-soft); }
+  .nav-links a:hover::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    border-radius: 2px;
+    background: var(--green);
+  }
+
+  /* ---------- Main content offset for sidebar ---------- */
+  .main { margin-left: 240px; }
+
+  /* ---------- Layout ---------- */
+  section {
+    max-width: 1080px;
+    margin: 0;
+    padding: 5rem 2.5rem;
+  }
+
+  .section-title {
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .section-title::before {
+    content: "";
+    width: 8px;
+    height: 24px;
+    background: var(--green);
+    border-radius: 2px;
+  }
+
+  .muted { color: var(--muted); }
+
+  /* ---------- Hero ---------- */
+  .hero { min-height: 0; padding-top: 4rem; padding-bottom: 3rem; display: flex; flex-direction: column; justify-content: flex-start; }
+
+  .hero .tag {
+    color: var(--green);
+    font-weight: 600;
+    letter-spacing: 1px;
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 14px var(--accent-glow);
+  }
+
+  .hero h1 {
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    line-height: 1.1;
+    margin-bottom: 1.2rem;
+  }
+  .hero h1 .accent { color: var(--green); text-shadow: 0 0 24px var(--accent-glow), 0 0 48px rgba(34,255,142,0.25); }
+
+  .hero p.lead { font-size: 1.15rem; color: var(--muted); max-width: 640px; margin-bottom: 2rem; }
+
+  .btn-row { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+  .btn {
+    display: inline-block;
+    padding: 0.75rem 1.6rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+  }
+  .btn-primary {
+    background: var(--green);
+    color: #04180d;
+    box-shadow: 0 0 18px rgba(34, 255, 142, 0.35);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(34, 255, 142, 0.55); }
+
+  .btn-ghost {
+    border: 1px solid var(--border);
+    color: var(--text);
+  }
+  .btn-ghost:hover { border-color: var(--green); color: var(--green); }
+
+  .contact-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+  .contact-strip a { color: var(--muted); text-decoration: none; font-size: 0.95rem; transition: color 0.2s; }
+  .contact-strip a:hover { color: var(--green); }
+
+  /* ---------- About ---------- */
+  .about-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 2.5rem; }
+  .about-grid p { color: var(--muted); margin-bottom: 1rem; }
+  .about-grid p strong { color: var(--text); }
+
+  .stat-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+  }
+  .stat-card .num { font-size: 2.2rem; font-weight: 700; color: var(--green-strong); text-shadow: 0 0 16px var(--accent-glow); }
+  .stat-card .label { color: var(--muted); font-size: 0.9rem; margin-top: 0.3rem; }
+
+  /* ---------- Featured Skills ---------- */
+  .featured-skills { padding-top: 2rem; padding-bottom: 2rem; }
+  .featured-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.2rem; }
+  .feature-card {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem;
+    transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+  }
+  .feature-card:hover { transform: translateY(-4px); border-color: var(--green-dim); box-shadow: 0 0 24px var(--accent-glow); }
+  .feature-icon {
+    flex-shrink: 0;
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: var(--accent-glow);
+    border: 1px solid var(--green-dim);
+    color: var(--green-strong);
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    text-shadow: 0 0 12px var(--accent-glow);
+  }
+  .feature-title { font-weight: 700; margin-bottom: 0.25rem; }
+  .feature-desc { color: var(--muted); font-size: 0.88rem; }
+
+  /* ---------- Skills ---------- */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .skill-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: transform 0.25s, border-color 0.25s;
+  }
+  .skill-card:hover { transform: translateY(-4px); border-color: var(--green-dim); box-shadow: 0 0 22px var(--accent-glow-soft); }
+
+  .skill-card h3 {
+    color: var(--green);
+    font-size: 1.05rem;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 12px var(--accent-glow);
+  }
+
+  .skill-chip { display: inline-block; padding: 0.35rem 0.8rem; margin: 0.25rem; font-size: 0.85rem; color: var(--text); background: var(--panel-2); border-radius: 30px; border: 1px solid var(--border); transition: border-color 0.2s, box-shadow 0.2s; }
+  .skill-chip:hover { border-color: var(--green-dim); box-shadow: 0 0 12px var(--accent-glow-soft); }
+
+  /* ---------- Experience ---------- */
+  .exp-item {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.75rem;
+    margin-bottom: 1.5rem;
+    border-left: 4px solid var(--green);
+  }
+  .exp-item .role { font-size: 1.2rem; font-weight: 700; }
+  .exp-item .company { color: var(--green); font-weight: 600; }
+  .exp-item .dates { color: var(--muted); font-size: 0.9rem; margin: 0.3rem 0 1rem; }
+  .exp-item ul { list-style: none; }
+  .exp-item ul li { color: var(--muted); padding-left: 1.3rem; position: relative; margin-bottom: 0.4rem; }
+  .exp-item ul li::before { content: ""; position: absolute; left: 0; top: 0.6em; width: 8px; height: 8px; border-radius: 50%; background: var(--green-dim); }
+
+  .ach { margin-top: 1rem; padding-top: 1rem; border-top: 1px dashed var(--border); }
+  .ach h4 { color: var(--green); font-size: 0.95rem; margin-bottom: 0.5rem; }
+  .ach ul li { color: var(--muted); }
+
+  /* ---------- Education / Certificate ---------- */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+
+  .info-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+  .info-card .title { font-weight: 700; margin-bottom: 0.4rem; }
+  .info-card .sub { color: var(--muted); font-size: 0.9rem; }
+
+  .cert-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: var(--accent-glow);
+    border: 1px solid var(--green-dim);
+    color: var(--green-soft);
+    padding: 0.55rem 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    margin-top: 0.8rem;
+  }
+
+  /* ---------- Footer ---------- */
+  footer {
+    text-align: center;
+    padding: 2.5rem;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+  footer a { color: var(--green); text-decoration: none; }
+
+  /* ---------- Animations ---------- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero > * { animation: fadeUp 0.8s ease both; }
+  .hero .tag { animation-delay: 0.05s; }
+  .hero h1 { animation-delay: 0.15s; }
+  .hero p.lead { animation-delay: 0.25s; }
+  .hero .btn-row { animation-delay: 0.35s; }
+  .hero .contact-strip { animation-delay: 0.45s; }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 780px) {
+    nav { width: 100%; height: auto; position: fixed; flex-direction: row; align-items: center; gap: 0.75rem; padding: 0.6rem 1rem; border-right: none; border-bottom: 1px solid var(--border); }
+    .brand { margin-right: auto; }
+    .nav-links { flex-direction: row; flex-wrap: wrap; gap: 0.25rem; }
+    .nav-links a { padding: 0.3rem 0.5rem; font-size: 0.85rem; }
+    .main { margin-left: 0; padding-top: 3.2rem; }
+    section { padding: 3rem 1.25rem; }
+    .about-grid, .two-col { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="brand">FT.<span>Ibale</span></div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#experience">Experience</a>
+    <a href="#education">Education</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<div class="main">
+
+<!-- Hero -->
+<section class="hero">
+  <div class="tag">DATA ENTRY &amp; MIS PROFESSIONAL</div>
+  <h1>Fernando <span class="accent">T. Ibale Jr.</span></h1>
+  <p class="lead">
+    Detail-oriented Data Entry and Management Information Systems professional with
+    over a year of experience managing datasets, preparing reports, and maintaining
+    accurate records. Skilled in spreadsheet automation and no-code AI workflows with n8n.
+    I turn raw data into clear, reliable reports.
+  </p>
+  <div class="btn-row">
+    <a class="btn btn-primary" href="#contact">Get in Touch</a>
+    <a class="btn btn-ghost" href="#experience">View Experience</a>
+  </div>
+  <div class="contact-strip">
+    <a href="mailto:fernando.ibale07@gmail.com">fernando.ibale07@gmail.com</a>
+    <a href="tel:+639275722285">+63 927 572 2285</a>
+    <a href="#" >Rizal, Philippines</a>
+  </div>
+</section>
+
+<!-- Featured Skills Showcase -->
+<section class="featured-skills reveal">
+  <h2 class="section-title">What I Can Do</h2>
+  <div class="featured-grid">
+    <div class="feature-card">
+      <div class="feature-icon">MS</div>
+      <div>
+        <div class="feature-title">Microsoft Excel</div>
+        <div class="feature-desc">Formulas, PivotTables, charts, VLOOKUP/XLOOKUP, SUMIFS/COUNTIFS</div>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">MIS</div>
+      <div>
+        <div class="feature-title">MIS &amp; Reporting</div>
+        <div class="feature-desc">Daily, weekly &amp; monthly report preparation and record keeping</div>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">GS</div>
+      <div>
+        <div class="feature-title">Google Sheets &amp; Workspace</div>
+        <div class="feature-desc">Data management, collaboration and cloud documents</div>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">AI</div>
+      <div>
+        <div class="feature-title">No-Code AI (n8n)</div>
+        <div class="feature-desc">Certified No-Code AI Agent Builder</div>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">AUT</div>
+      <div>
+        <div class="feature-title">Automation</div>
+        <div class="feature-desc">Workflow automation and process pipelines with n8n and Power Automate</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- About -->
+<section id="about">
+  <h2 class="section-title">About Me</h2>
+  <div class="about-grid">
+    <div>
+      <p>
+        I am a <strong>Data Entry / MIS professional</strong> with <strong>1 year and 5 months</strong> of
+        experience managing large volumes of business data and preparing daily, weekly, and
+        monthly reports using <strong>Microsoft Excel</strong>.
+      </p>
+      <p>
+        I am proficient in <strong>formulas, PivotTables, charts, and data validation</strong>, and I
+        bring strong organizational skills, a high attention to detail, and the ability to work
+        independently in remote environments.
+      </p>
+      <p>
+        I am currently seeking a remote <strong>Data Entry, Administrative Assistant, MIS, or
+        Virtual Assistant</strong> position where I can contribute strong analytical and
+        administrative skills.
+      </p>
+    </div>
+    <div class="stat-card">
+      <div class="num">1.5</div>
+      <div class="label">Years of Professional Experience</div>
+      <div style="height:1rem"></div>
+      <div class="num">2</div>
+      <div class="label">Languages Spoken</div>
+    </div>
+  </div>
+</section>
+
+<!-- Skills -->
+<section id="skills">
+  <h2 class="section-title">Core Skills</h2>
+  <div class="skills-grid">
+    <div class="skill-card">
+      <h3>Data &amp; Spreadsheets</h3>
+      <div>
+        <span class="skill-chip">Data Entry</span>
+        <span class="skill-chip">Data Cleaning</span>
+        <span class="skill-chip">Data Validation</span>
+        <span class="skill-chip">PivotTables</span>
+        <span class="skill-chip">Charts &amp; Visualization</span>
+        <span class="skill-chip">VLOOKUP / XLOOKUP</span>
+        <span class="skill-chip">IF, SUMIFS, COUNTIFS</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <h3>Software &amp; Tools</h3>
+      <div>
+        <span class="skill-chip">Microsoft Excel</span>
+        <span class="skill-chip">Microsoft Word</span>
+        <span class="skill-chip">Microsoft PowerPoint</span>
+        <span class="skill-chip">Google Sheets</span>
+        <span class="skill-chip">Google Workspace</span>
+        <span class="skill-chip">n8n (No-Code AI)</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <h3>Automation &amp; No-Code</h3>
+      <div>
+        <span class="skill-chip">n8n Workflows</span>
+        <span class="skill-chip">No-Code AI Agents</span>
+        <span class="skill-chip">Workflow Automation</span>
+        <span class="skill-chip">Process Automation</span>
+        <span class="skill-chip">Data Pipelines</span>
+        <span class="skill-chip">AI Tool Integration</span>
+        <span class="skill-chip">Power Automate</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <h3>MIS &amp; Reporting</h3>
+      <div>
+        <span class="skill-chip">Management Information Systems</span>
+        <span class="skill-chip">Report Preparation</span>
+        <span class="skill-chip">Record Keeping</span>
+        <span class="skill-chip">File Management</span>
+        <span class="skill-chip">Internet Research</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <h3>Office &amp; Soft Skills</h3>
+      <div>
+        <span class="skill-chip">Email Management</span>
+        <span class="skill-chip">Administrative Support</span>
+        <span class="skill-chip">Time Management</span>
+        <span class="skill-chip">Attention to Detail</span>
+        <span class="skill-chip">Basic Computer Troubleshooting</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Experience -->
+<section id="experience">
+  <h2 class="section-title">Experience</h2>
+  <div class="exp-item reveal">
+    <div class="role">Data Entry / MIS Staff</div>
+    <div class="company">Forbes Financial Consultancy Corporation</div>
+    <div class="dates">January 2025 — May 2026</div>
+    <ul>
+      <li>Entered and maintained large volumes of business data with a high level of accuracy.</li>
+      <li>Prepared daily, weekly, and monthly MIS reports using Microsoft Excel.</li>
+      <li>Verified, organized, and updated company records.</li>
+      <li>Used Excel formulas, PivotTables, and charts to analyze and summarize data.</li>
+      <li>Coordinated with different departments to ensure accurate reporting.</li>
+      <li>Maintained confidentiality of company information.</li>
+      <li>Assisted with administrative and documentation tasks.</li>
+    </ul>
+    <div class="ach">
+      <h4>Key Achievements</h4>
+      <ul>
+        <li>Maintained a high level of data accuracy throughout the role.</li>
+        <li>Improved report preparation efficiency through better spreadsheet organization.</li>
+        <li>Consistently met reporting deadlines.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Education & Certificate -->
+<section id="education">
+  <h2 class="section-title">Education &amp; Certification</h2>
+  <div class="two-col">
+    <div class="info-card">
+      <div class="title">Senior High School — STEM Strand</div>
+      <div class="sub">Secondary Education</div>
+      <div style="height:1rem"></div>
+      <div class="title">BS in Electronics Engineering</div>
+      <div class="sub">Undergraduate — completed 1 year</div>
+    </div>
+    <div class="info-card">
+      <div class="title">Professional Certification</div>
+      <div class="sub">n8n Course — No Code AI Agent Builder</div>
+      <div class="sub muted">Completed 8 September 2026</div>
+      <div class="cert-badge">Certificate Holder</div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section id="contact">
+  <h2 class="section-title">Contact</h2>
+  <div class="info-card" style="max-width:520px">
+    <div class="muted" style="margin-bottom:1.2rem">
+      Open to remote opportunities in Data Entry, MIS, Reporting, Administrative Support, and Virtual Assistance.
+    </div>
+    <div>
+      <div class="stat-card" style="margin-bottom:0.8rem">
+        <a href="mailto:fernando.ibale07@gmail.com" class="sub" style="color:var(--green);text-decoration:none;font-weight:600">fernando.ibale07@gmail.com</a>
+      </div>
+      <div class="stat-card">
+        <a href="tel:+639275722285" class="sub" style="color:var(--green);text-decoration:none;font-weight:600">+63 927 572 2285</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Fernando T. Ibale Jr. — Data Entry &amp; MIS Professional
+  <div style="margin-top:0.5rem"><a href="mailto:fernando.ibale07@gmail.com">Email</a> &nbsp;·&nbsp; <a href="#">Rizal, Philippines</a></div>
+</footer>
+
+</div><!-- /.main -->
+
+<script>
+  // Reveal on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.reveal, .skill-card, .info-card, .stat-card, .exp-item, .feature-card').forEach((el) => {
+    observer.observe(el);
+  });
+</script>
+
+</body>
+</html>
