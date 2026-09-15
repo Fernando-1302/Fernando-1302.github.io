@@ -413,6 +413,130 @@
     .contact-strip { gap: 1rem; flex-direction: column; align-items: flex-start; }
     .section-title { font-size: 1.35rem; }
   }
+
+  /* ---------- Projects Section ---------- */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+  .project-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+  }
+  .project-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--green-dim);
+    box-shadow: 0 0 22px var(--accent-glow);
+  }
+  .project-card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+    border-bottom: 1px solid var(--border);
+  }
+  .project-card .proj-info {
+    padding: 1.25rem;
+  }
+  .project-card .proj-title {
+    font-weight: 700;
+    color: var(--green);
+    margin-bottom: 0.4rem;
+    font-size: 1.1rem;
+    text-shadow: 0 0 10px var(--accent-glow);
+  }
+  .project-card .proj-desc {
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+  .project-card .proj-view {
+    display: inline-block;
+    margin-top: 0.8rem;
+    color: var(--green);
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: opacity 0.2s;
+  }
+  .project-card:hover .proj-view { opacity: 0.7; }
+
+  /* ---------- Lightbox / Slides ---------- */
+  .lightbox {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.92);
+    backdrop-filter: blur(10px);
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox img {
+    max-width: 90vw;
+    max-height: 85vh;
+    border-radius: 12px;
+    box-shadow: 0 0 40px rgba(34, 255, 142, 0.15);
+    object-fit: contain;
+  }
+  .lightbox-close {
+    position: absolute;
+    top: 1.5rem;
+    right: 2rem;
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 2rem;
+    cursor: pointer;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .lightbox-close:hover {
+    color: var(--green);
+    border-color: var(--green);
+  }
+  .lightbox-label {
+    color: var(--green);
+    font-size: 1.1rem;
+    margin-top: 1.5rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  .lightbox-counter {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+  }
+  .lightbox-nav {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+  .lightbox-nav button {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 0.6rem 1.4rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .lightbox-nav button:hover {
+    border-color: var(--green);
+    color: var(--green);
+  }
 </style>
 </head>
 <body>
@@ -428,6 +552,7 @@
     <a href="#about">About</a>
     <a href="#skills">Skills</a>
     <a href="#experience">Experience</a>
+    <a href="#projects">Projects</a>
     <a href="#education">Education</a>
     <a href="#contact">Contact</a>
   </div>
@@ -618,6 +743,45 @@
   </div>
 </section>
 
+<!-- Projects -->
+<section id="projects" class="reveal">
+  <h2 class="section-title">Projects</h2>
+  <div class="projects-grid">
+    <article class="project-card" data-img="my profile project/ai agent workflow.png" data-title="AI Agent Workflow">
+      <img src="my profile project/ai agent workflow.png" alt="AI Agent Workflow project screenshot">
+      <div class="proj-info">
+        <div class="proj-title">AI Agent Workflow</div>
+        <div class="proj-desc">No-code AI agent built with n8n — automated workflow for intelligent task processing and decision making.</div>
+        <span class="proj-view">Click to view full size →</span>
+      </div>
+    </article>
+    <article class="project-card" data-img="my profile project/ordering workflow.png" data-title="Ordering Workflow">
+      <img src="my profile project/ordering workflow.png" alt="Ordering Workflow project screenshot">
+      <div class="proj-info">
+        <div class="proj-title">Ordering Workflow</div>
+        <div class="proj-desc">End-to-end order processing automation with n8n — streamlines intake, validation, and fulfillment steps.</div>
+        <span class="proj-view">Click to view full size →</span>
+      </div>
+    </article>
+    <article class="project-card" data-img="my profile project/Light CRM.png" data-title="Light CRM">
+      <img src="my profile project/Light CRM.png" alt="Light CRM project screenshot">
+      <div class="proj-info">
+        <div class="proj-title">Light CRM</div>
+        <div class="proj-desc">A lightweight CRM system for managing customer relationships and sales pipelines.</div>
+        <span class="proj-view">Click to view full size →</span>
+      </div>
+    </article>
+    <article class="project-card" data-img="my profile project/adminportal.png" data-title="Admin Portal">
+      <img src="my profile project/adminportal.png" alt="Admin Portal project screenshot">
+      <div class="proj-info">
+        <div class="proj-title">Admin Portal</div>
+        <div class="proj-desc">A dashboard for managing administrative tasks and user permissions.</div>
+        <span class="proj-view">Click to view full size →</span>
+      </div>
+    </article>
+  </div>
+</section>
+
 <!-- Education & Certificate -->
 <section id="education">
   <h2 class="section-title">Education &amp; Certification</h2>
@@ -661,6 +825,18 @@
   <div style="margin-top:0.5rem"><a href="mailto:fernando.ibale07@gmail.com">Email</a> &nbsp;·&nbsp; <a href="#">Rizal, Philippines</a></div>
 </footer>
 
+<!-- Lightbox Modal -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Close viewer">&times;</button>
+  <img id="lightboxImg" src="" alt="Project screenshot">
+  <div class="lightbox-label" id="lightboxLabel"></div>
+  <div class="lightbox-counter" id="lightboxCounter"></div>
+  <div class="lightbox-nav">
+    <button id="lightboxPrev">&larr; Previous</button>
+    <button id="lightboxNext">Next &rarr;</button>
+  </div>
+</div>
+
 </div><!-- /.main -->
 
 <script>
@@ -693,6 +869,64 @@
       });
     });
   }
+
+  // Lightbox / Slides
+  const projectCards = document.querySelectorAll('.project-card');
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightboxImg');
+  const lightboxLabel = document.getElementById('lightboxLabel');
+  const lightboxCounter = document.getElementById('lightboxCounter');
+  const lightboxClose = document.getElementById('lightboxClose');
+  const lightboxPrev = document.getElementById('lightboxPrev');
+  const lightboxNext = document.getElementById('lightboxNext');
+
+  const slides = Array.from(projectCards).map((card) => ({
+    img: card.dataset.img,
+    title: card.dataset.title,
+  }));
+
+  let currentSlide = 0;
+
+  function openSlide(index) {
+    if (index < 0) index = slides.length - 1;
+    if (index >= slides.length) index = 0;
+    currentSlide = index;
+    const slide = slides[currentSlide];
+    lightboxImg.src = slide.img;
+    lightboxImg.alt = slide.title;
+    lightboxLabel.textContent = slide.title;
+    lightboxCounter.textContent = `${currentSlide + 1} / ${slides.length}`;
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeSlide() {
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  projectCards.forEach((card, idx) => {
+    card.addEventListener('click', () => openSlide(idx));
+  });
+
+  lightboxClose.addEventListener('click', closeSlide);
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) closeSlide();
+  });
+  lightboxPrev.addEventListener('click', () => openSlide(currentSlide - 1));
+  lightboxNext.addEventListener('click', () => openSlide(currentSlide + 1));
+
+  document.addEventListener('keydown', (e) => {
+    if (!lightbox.classList.contains('open')) return;
+    if (e.key === 'Escape') closeSlide();
+    if (e.key === 'ArrowLeft') openSlide(currentSlide - 1);
+    if (e.key === 'ArrowRight') openSlide(currentSlide + 1);
+  });
+
+  // Add reveal observer for project cards
+  document.querySelectorAll('.project-card').forEach((el) => {
+    observer.observe(el);
+  });
 </script>
 
 </body>
