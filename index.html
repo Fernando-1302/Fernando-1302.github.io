@@ -45,20 +45,17 @@
             transition: background-color 0.3s, color 0.3s, border-color 0.3s;
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
+        html { scroll-behavior: smooth; }
 
         body {
             background-color: var(--bg);
             color: var(--text);
             padding: 1.5rem 1rem 7rem 1rem;
-            max-width: 1000px; /* Expands nicely on desktop */
+            max-width: 1000px;
             margin: 0 auto;
             position: relative;
         }
 
-        /* Responsive Layout Grid for Desktop */
         .desktop-grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -66,21 +63,73 @@
         }
 
         @media (min-width: 768px) {
-            body {
-                padding: 2.5rem 2rem 7rem 2rem;
-            }
+            body { padding: 2.5rem 2rem 7rem 2rem; }
             .desktop-grid {
                 grid-template-columns: 1.1fr 0.9fr;
                 align-items: start;
             }
         }
 
-        /* Section Visibility Switching via Nav */
-        .tab-section {
-            display: none;
+        .tab-section { display: none; }
+        .tab-section.active { display: block; }
+
+        /* ---------- Initializing Fullscreen Splash Screen ---------- */
+        .site-loader {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: var(--bg);
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
         }
-        .tab-section.active {
-            display: block;
+
+        .site-loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .spinner {
+            width: 54px;
+            height: 54px;
+            border: 4px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1.5rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            max-width: 320px;
+            height: 8px;
+            background: var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 1.2rem 0 0.8rem 0;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transition: width 0.1s linear;
+        }
+
+        .status-text {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
         }
 
         /* ---------- Profile Header ---------- */
@@ -138,9 +187,6 @@
             cursor: pointer;
             box-shadow: 0 4px 12px var(--shadow);
             color: var(--text);
-        }
-        .theme-toggle-btn:hover {
-            border-color: var(--primary);
         }
 
         /* ---------- Hero Title ---------- */
@@ -244,9 +290,7 @@
             color: var(--text);
         }
 
-        .tool-item i {
-            color: var(--primary);
-        }
+        .tool-item i { color: var(--primary); }
 
         .divider {
             width: 1px;
@@ -254,7 +298,7 @@
             background-color: var(--border);
         }
 
-        /* ---------- Carousel / Project Section ---------- */
+        /* ---------- Carousel Section ---------- */
         .explore-header {
             display: flex;
             justify-content: space-between;
@@ -262,16 +306,8 @@
             margin-bottom: 1rem;
         }
 
-        .explore-header h3 {
-            font-size: 1.2rem;
-            font-weight: 700;
-        }
-
-        .explore-header span {
-            font-size: 0.85rem;
-            color: var(--primary);
-            font-weight: 600;
-        }
+        .explore-header h3 { font-size: 1.2rem; font-weight: 700; }
+        .explore-header span { font-size: 0.85rem; color: var(--primary); font-weight: 600; }
 
         .carousel-container {
             display: flex;
@@ -298,10 +334,6 @@
             cursor: pointer;
         }
 
-        .carousel-card:hover {
-            border-color: var(--primary);
-        }
-
         .carousel-card img {
             width: 100%;
             height: 100%;
@@ -310,8 +342,7 @@
 
         .badge-cyan {
             position: absolute;
-            top: 1rem;
-            left: 1rem;
+            top: 1rem; left: 1rem;
             background: var(--bg);
             border: 1px solid var(--primary);
             color: var(--primary);
@@ -325,8 +356,7 @@
 
         .badge-purple {
             position: absolute;
-            top: 1rem;
-            left: 1rem;
+            top: 1rem; left: 1rem;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: #ffffff;
             font-size: 0.68rem;
@@ -337,7 +367,7 @@
             z-index: 2;
         }
 
-        /* ---------- Services & Details Lists ---------- */
+        /* ---------- Service Cards ---------- */
         .service-list {
             display: flex;
             flex-direction: column;
@@ -383,7 +413,7 @@
             cursor: pointer;
         }
 
-        /* ---------- Project Modal Interface ---------- */
+        /* ---------- Modal Overlay ---------- */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -479,7 +509,7 @@
             border-radius: 12px;
         }
 
-        /* ---------- Fixed Bottom Navigation ---------- */
+        /* ---------- Fixed Bottom Navigation Bar ---------- */
         .bottom-nav {
             position: fixed;
             bottom: 1rem;
@@ -541,7 +571,17 @@
 </head>
 <body>
 
-    <!-- ---------- Header Profile ---------- -->
+    <!-- ---------- Fullscreen Initializing Screen (Before Site Loads) ---------- -->
+    <div class="site-loader" id="siteLoader">
+        <div class="spinner"></div>
+        <div class="status-text" id="statusText">Initializing System...</div>
+        <div class="progress-bar-bg">
+            <div class="progress-bar-fill" id="progressFill"></div>
+        </div>
+        <p style="font-size: 0.8rem; color: var(--muted);" id="percentageText">0%</p>
+    </div>
+
+    <!-- ---------- Profile Header ---------- -->
     <div class="profile-header">
         <div class="profile-left">
             <img src="my profile project/ai agent workflow.png" alt="Fernando T. Ibale Jr." class="avatar">
@@ -560,13 +600,11 @@
     <div id="tab-home" class="tab-section active">
         <div class="desktop-grid">
             <div>
-                <!-- Hero Content -->
                 <h1 class="hero-title">Automate Data.<br><span>Run it seamlessly.</span></h1>
                 <p class="hero-description">
                     Data Entry & MIS Professional specializing in Excel reporting, process automation, and certified n8n AI Agents.
                 </p>
 
-                <!-- Stats Section -->
                 <div class="stats-grid">
                     <div class="stat-item">
                         <h3>MIS</h3>
@@ -584,7 +622,6 @@
             </div>
 
             <div>
-                <!-- Daily Drivers Widget -->
                 <div class="daily-drivers-card">
                     <div class="card-tag">DAILY DRIVERS</div>
                     <div class="card-title">Tools I work with</div>
@@ -609,14 +646,12 @@
             </div>
         </div>
 
-        <!-- Carousel Section -->
         <div class="explore-header">
             <h3>Featured Showcase</h3>
             <span>Swipe / Click</span>
         </div>
 
         <div class="carousel-container">
-            <!-- Card 1 -->
             <div class="carousel-card" 
                  data-title="AI Agent Workflow" 
                  data-img="my profile project/ai agent workflow.png"
@@ -626,7 +661,6 @@
                 <img src="my profile project/ai agent workflow.png" alt="AI Agent Workflow">
             </div>
 
-            <!-- Card 2 -->
             <div class="carousel-card" 
                  data-title="Admin Portal & Pipeline" 
                  data-img="my profile project/adminportal.png"
@@ -636,7 +670,6 @@
                 <img src="my profile project/adminportal.png" alt="Admin Portal">
             </div>
 
-            <!-- Card 3 -->
             <div class="carousel-card" 
                  data-title="Light CRM Interface" 
                  data-img="my profile project/Light CRM.png"
@@ -659,7 +692,7 @@
                  data-tags="n8n, Local LLM, Webhooks"
                  style="height: auto; padding: 1.2rem;">
                 <h4>01. AI Agent Workflow</h4>
-                <p>Click to view complete details on the n8n automation pipeline.</p>
+                <p>Click to inspect details on the n8n automation pipeline.</p>
             </div>
             <div class="service-card carousel-card"
                  data-title="Admin Portal & Pipeline" 
@@ -739,7 +772,7 @@
         </button>
     </nav>
 
-    <!-- ---------- Project Modal ---------- -->
+    <!-- ---------- Project Detail Modal ---------- -->
     <div class="modal-overlay" id="projectModal">
         <div class="modal-content">
             <button class="modal-close" id="modalClose" aria-label="Close modal"><i class="fa-solid fa-xmark"></i></button>
@@ -753,7 +786,41 @@
     </div>
 
     <script>
-        // --- 1. Tab Navigation Routing ---
+        // --- 1. Initializing Screen Run Sequence ---
+        window.addEventListener('DOMContentLoaded', () => {
+            const siteLoader = document.getElementById('siteLoader');
+            const progressFill = document.getElementById('progressFill');
+            const percentageText = document.getElementById('percentageText');
+            const statusText = document.getElementById('statusText');
+
+            let progress = 0;
+            const timer = setInterval(() => {
+                progress += Math.floor(Math.random() * 12) + 8;
+
+                if (progress >= 100) {
+                    progress = 100;
+                    progressFill.style.width = '100%';
+                    percentageText.textContent = '100%';
+                    statusText.textContent = 'System Ready';
+                    clearInterval(timer);
+
+                    setTimeout(() => {
+                        siteLoader.classList.add('hidden');
+                    }, 400);
+                } else {
+                    progressFill.style.width = progress + '%';
+                    percentageText.textContent = progress + '%';
+
+                    if (progress > 35 && progress < 75) {
+                        statusText.textContent = 'Loading Workflows...';
+                    } else if (progress >= 75) {
+                        statusText.textContent = 'Preparing Environment...';
+                    }
+                }
+            }, 100);
+        });
+
+        // --- 2. Tab Navigation Routing ---
         const navItems = document.querySelectorAll('.nav-item');
         const tabSections = document.querySelectorAll('.tab-section');
 
@@ -761,11 +828,9 @@
             item.addEventListener('click', () => {
                 const targetTab = item.getAttribute('data-tab');
 
-                // Toggle active navbar tab
                 navItems.forEach(nav => nav.classList.remove('active'));
                 item.classList.add('active');
 
-                // Switch section views
                 tabSections.forEach(section => {
                     if (section.id === targetTab) {
                         section.classList.add('active');
@@ -778,7 +843,7 @@
             });
         });
 
-        // --- 2. Interactive Project Cards / Modal Handler ---
+        // --- 3. Interactive Modal Popup Handler ---
         const cards = document.querySelectorAll('.carousel-card');
         const modal = document.getElementById('projectModal');
         const modalClose = document.getElementById('modalClose');
@@ -820,7 +885,7 @@
             if (e.target === modal) modal.classList.remove('active');
         });
 
-        // --- 3. Theme Switcher Button ---
+        // --- 4. Theme Switcher Button ---
         const themeBtn = document.getElementById('themeToggle');
         const root = document.documentElement;
 
@@ -831,7 +896,7 @@
             themeBtn.querySelector('i').className = nextTheme === 'dark' ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
         });
 
-        // --- 4. Accessibility Floating Button ---
+        // --- 5. Accessibility Option Resizer ---
         const accessBtn = document.getElementById('accessBtn');
         accessBtn.addEventListener('click', () => {
             const currentSize = parseFloat(window.getComputedStyle(document.body).fontSize);
