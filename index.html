@@ -3,17 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fernando T. Ibale Jr. | Data Entry & MIS Portfolio</title>
+    <title>Fernando T. Ibale Jr. | Portfolio</title>
 
-    <!-- -------------- 3rd-Party Libraries -------------- -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css"/>
+    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
-
-    <!-- -------------- Styles -------------- -->
     <style>
         :root[data-theme="dark"] {
             --bg: #0b0f17;
@@ -26,6 +20,7 @@
             --accent: #eab308;
             --glow: rgba(56, 189, 248, 0.15);
             --shadow: rgba(0, 0, 0, 0.4);
+            --pill-bg: #111827;
         }
 
         :root[data-theme="light"] {
@@ -39,229 +34,354 @@
             --accent: #ca8a04;
             --glow: rgba(2, 132, 199, 0.15);
             --shadow: rgba(0, 0, 0, 0.08);
+            --pill-bg: #f1f5f9;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        body {
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
             background-color: var(--bg);
             color: var(--text);
-            line-height: 1.6;
-            padding-bottom: 80px;
-            transition: background 0.3s, color 0.3s;
-            overflow: hidden; /* Lock scroll during download screen */
-        }
-
-        /* ---------- Downloading Interface ---------- */
-        #loader {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-color: var(--bg);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 10000;
-        }
-
-        .download-box {
-            width: 90%;
-            max-width: 420px;
-            background: var(--panel);
-            border: 1px solid var(--border);
-            padding: 2rem;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px var(--shadow);
-            text-align: center;
-        }
-
-        .download-icon {
-            font-size: 2.2rem;
-            color: var(--primary);
-            margin-bottom: 1rem;
-            animation: bounce 1.5s infinite;
-        }
-
-        .download-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.9rem;
-            font-weight: 700;
-            margin-bottom: 0.8rem;
-            color: var(--text);
-        }
-
-        .download-bar-container {
-            width: 100%;
-            height: 10px;
-            background: var(--border);
-            border-radius: 20px;
-            overflow: hidden;
+            padding: 1.5rem 1rem 7rem 1rem;
+            max-width: 1000px; /* Expands nicely on desktop */
+            margin: 0 auto;
             position: relative;
         }
 
-        .download-bar {
-            width: 0%;
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            border-radius: 20px;
-            transition: width 0.3s ease-out;
+        /* Responsive Layout Grid for Desktop */
+        .desktop-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
         }
 
-        .download-sub {
-            margin-top: 0.8rem;
-            font-size: 0.8rem;
-            color: var(--muted);
-            letter-spacing: 1px;
+        @media (min-width: 768px) {
+            body {
+                padding: 2.5rem 2rem 7rem 2rem;
+            }
+            .desktop-grid {
+                grid-template-columns: 1.1fr 0.9fr;
+                align-items: start;
+            }
         }
 
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
+        /* Section Visibility Switching via Nav */
+        .tab-section {
+            display: none;
+        }
+        .tab-section.active {
+            display: block;
         }
 
-        /* Custom Cursor Glow */
-        .cursor-glow {
-            position: fixed;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, var(--glow) 0%, transparent 70%);
-            border-radius: 50%;
-            pointer-events: none;
-            transform: translate(-50%, -50%);
-            z-index: 9999;
-        }
-
-        /* ---------- Fixed Bottom Navbar ---------- */
-        nav.bottom-nav {
-            position: fixed;
-            bottom: 0; left: 0; right: 0;
+        /* ---------- Profile Header ---------- */
+        .profile-header {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 0.9rem 2.5rem;
-            background: rgba(11, 15, 23, 0.85);
-            backdrop-filter: blur(16px);
-            border-top: 1px solid var(--border);
-            z-index: 1000;
+            justify-content: space-between;
+            margin-bottom: 2rem;
         }
-        nav.bottom-nav .logo {
-            font-size: 1.2rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        nav.bottom-nav ul { list-style: none; display: flex; gap: 2rem; align-items: center; }
-        nav.bottom-nav a {
-            text-decoration: none;
-            color: var(--muted);
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: color 0.25s;
-        }
-        nav.bottom-nav a:hover { color: var(--primary); }
 
-        .theme-btn {
+        .profile-left {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary);
             background: var(--panel);
-            border: 1px solid var(--border);
-            color: var(--text);
-            padding: 0.4rem 0.9rem;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.8rem;
+        }
+
+        .profile-info h2 {
+            font-size: 1.15rem;
+            font-weight: 700;
             display: flex;
             align-items: center;
             gap: 0.4rem;
+            color: var(--text);
         }
 
-        /* ---------- Hero Section ---------- */
-        .hero {
-            min-height: 90vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 4rem 2rem 2rem;
-            background: radial-gradient(circle at 50% 30%, var(--glow), transparent 60%);
-        }
-        .hero-tag {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+        .badge-icon {
             color: var(--primary);
-            font-weight: 700;
-            margin-bottom: 1rem;
-            padding: 0.3rem 0.9rem;
-            background: var(--glow);
-            border: 1px solid var(--primary);
-            border-radius: 20px;
+            font-size: 0.95rem;
         }
-        .hero h1 {
-            font-size: clamp(2.2rem, 5vw, 4rem);
+
+        .profile-info p {
+            font-size: 0.85rem;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        .theme-toggle-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--panel);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px var(--shadow);
+            color: var(--text);
+        }
+        .theme-toggle-btn:hover {
+            border-color: var(--primary);
+        }
+
+        /* ---------- Hero Title ---------- */
+        .hero-title {
+            font-size: clamp(2.1rem, 4vw, 3rem);
             font-weight: 800;
-            line-height: 1.2;
+            line-height: 1.15;
+            letter-spacing: -0.5px;
             margin-bottom: 0.8rem;
         }
-        .hero h1 span {
+
+        .hero-title span {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .hero p {
-            font-size: 1.1rem;
-            color: var(--muted);
-            max-width: 650px;
-            margin-bottom: 2rem;
-        }
-        .hero-contacts {
-            display: flex;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-bottom: 2rem;
-            font-size: 0.9rem;
-            color: var(--muted);
-        }
-        .hero-contacts i { color: var(--primary); margin-right: 0.4rem; }
 
-        /* ---------- Projects Section ---------- */
-        .section-title { text-align: center; font-size: 2.2rem; margin-bottom: 0.5rem; }
-        .section-sub { text-align: center; color: var(--muted); margin-bottom: 3rem; }
+        .hero-description {
+            font-size: 1rem;
+            color: var(--muted);
+            line-height: 1.5;
+            margin-bottom: 1.8rem;
+        }
 
-        .projects-grid {
+        /* ---------- Stats Grid ---------- */
+        .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.8rem;
+            margin-bottom: 2rem;
         }
-        .project-card {
+
+        .stat-item {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            padding: 0.8rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            font-size: 1.25rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-item p {
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--muted);
+            margin-top: 0.2rem;
+        }
+
+        /* ---------- Daily Drivers Widget ---------- */
+        .daily-drivers-card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 1.4rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px var(--shadow);
+        }
+
+        .card-tag {
+            font-size: 0.68rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.2rem;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 1rem;
+        }
+
+        .tools-pill-container {
+            background: var(--pill-bg);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 0.8rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.5rem;
+        }
+
+        .tool-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .tool-item i {
+            color: var(--primary);
+        }
+
+        .divider {
+            width: 1px;
+            height: 18px;
+            background-color: var(--border);
+        }
+
+        /* ---------- Carousel / Project Section ---------- */
+        .explore-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .explore-header h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .explore-header span {
+            font-size: 0.85rem;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .carousel-container {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none;
+            padding-bottom: 1rem;
+        }
+
+        .carousel-container::-webkit-scrollbar { display: none; }
+
+        .carousel-card {
+            min-width: 260px;
+            height: 220px;
+            background: var(--panel);
+            border-radius: 20px;
+            position: relative;
+            scroll-snap-align: start;
+            box-shadow: 0 10px 30px var(--shadow);
+            border: 1px solid var(--border);
+            flex-shrink: 0;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .carousel-card:hover {
+            border-color: var(--primary);
+        }
+
+        .carousel-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .badge-cyan {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: var(--bg);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            font-size: 0.68rem;
+            font-weight: 700;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+            z-index: 2;
+        }
+
+        .badge-purple {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #ffffff;
+            font-size: 0.68rem;
+            font-weight: 700;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+            z-index: 2;
+        }
+
+        /* ---------- Services & Details Lists ---------- */
+        .service-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .service-card {
             background: var(--panel);
             border: 1px solid var(--border);
             border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px var(--shadow);
-            transition: border-color 0.3s, transform 0.3s;
+            padding: 1.2rem;
+        }
+
+        .service-card h4 {
+            font-size: 1.05rem;
+            color: var(--primary);
+            margin-bottom: 0.4rem;
+        }
+
+        .service-card p {
+            font-size: 0.88rem;
+            color: var(--muted);
+            line-height: 1.5;
+        }
+
+        /* Floating Accessibility Button */
+        .accessibility-btn {
+            position: fixed;
+            left: 1rem;
+            bottom: 5.5rem;
+            width: 44px;
+            height: 44px;
+            background-color: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 1.1rem;
+            box-shadow: 0 4px 12px var(--shadow);
+            z-index: 999;
             cursor: pointer;
         }
-        .project-card:hover {
-            border-color: var(--primary);
-            transform: translateY(-5px);
-        }
-        .project-card img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-            border-bottom: 1px solid var(--border);
-        }
-        .project-info { padding: 1.5rem; }
-        .project-info h3 { font-size: 1.2rem; margin-bottom: 0.5rem; color: var(--text); }
-        .project-info p { font-size: 0.9rem; color: var(--muted); }
 
         /* ---------- Project Modal Interface ---------- */
         .modal-overlay {
@@ -288,7 +408,7 @@
             background: var(--panel);
             border: 1px solid var(--border);
             border-radius: 20px;
-            max-width: 650px;
+            max-width: 480px;
             width: 100%;
             max-height: 90vh;
             overflow-y: auto;
@@ -304,40 +424,32 @@
 
         .modal-close {
             position: absolute;
-            top: 1rem;
-            right: 1.2rem;
+            top: 1rem; right: 1rem;
             background: var(--bg);
             border: 1px solid var(--border);
             color: var(--text);
-            width: 36px;
-            height: 36px;
+            width: 36px; height: 36px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             z-index: 10;
-            transition: background 0.2s, color 0.2s;
-        }
-
-        .modal-close:hover {
-            background: var(--primary);
-            color: #fff;
         }
 
         .modal-img {
             width: 100%;
-            max-height: 280px;
+            height: 220px;
             object-fit: cover;
             border-bottom: 1px solid var(--border);
         }
 
         .modal-body {
-            padding: 2rem;
+            padding: 1.5rem;
         }
 
         .modal-body h2 {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             margin-bottom: 0.5rem;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
@@ -346,333 +458,385 @@
 
         .modal-body p {
             color: var(--muted);
-            font-size: 0.95rem;
-            margin-bottom: 1.5rem;
-            line-height: 1.7;
+            font-size: 0.9rem;
+            margin-bottom: 1.2rem;
+            line-height: 1.6;
         }
 
         .modal-tags {
             display: flex;
             gap: 0.5rem;
             flex-wrap: wrap;
-            margin-bottom: 1.8rem;
         }
 
         .modal-tag {
             background: var(--glow);
             border: 1px solid var(--border);
             color: var(--primary);
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 600;
             padding: 0.3rem 0.8rem;
             border-radius: 12px;
         }
 
-        .modal-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: #fff;
-            text-decoration: none;
-            padding: 0.7rem 1.4rem;
-            border-radius: 25px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: opacity 0.2s;
-        }
-
-        .modal-btn:hover {
-            opacity: 0.9;
-        }
-
-        /* ---------- Skills Section ---------- */
-        .skills-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 1.5rem;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-        .skill-box {
+        /* ---------- Fixed Bottom Navigation ---------- */
+        .bottom-nav {
+            position: fixed;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 2rem);
+            max-width: 440px;
             background: var(--panel);
             border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 1.5rem;
-            text-align: center;
+            border-radius: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 0.4rem 0.6rem;
+            z-index: 1000;
+            box-shadow: 0 8px 24px var(--shadow);
         }
-        .skill-box i { font-size: 2rem; color: var(--primary); margin-bottom: 0.8rem; }
-        .skill-box h4 { font-size: 1.1rem; margin-bottom: 0.4rem; }
-        .skill-box p { font-size: 0.85rem; color: var(--muted); }
 
-        /* ---------- Footer ---------- */
-        footer {
-            text-align: center;
-            padding: 2rem 1rem;
-            border-top: 1px solid var(--border);
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.2rem;
+            text-decoration: none;
             color: var(--muted);
-            font-size: 0.85rem;
+            font-size: 0.68rem;
+            font-weight: 500;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+        }
+
+        .nav-item i { font-size: 1.1rem; }
+
+        .nav-item.active {
+            background-color: var(--glow);
+            color: var(--primary);
+        }
+
+        .nav-fab {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 12px var(--glow);
+            margin: -0.8rem 0 0 0;
+            text-decoration: none;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
 
-<!-- ==================== SLOW DOWNLOADING LOADER ==================== -->
-<div id="loader">
-    <div class="download-box">
-        <i class="fa-solid fa-cloud-arrow-down download-icon"></i>
-        <div class="download-header">
-            <span>Downloading Assets...</span>
-            <span id="percentText">0%</span>
+    <!-- ---------- Header Profile ---------- -->
+    <div class="profile-header">
+        <div class="profile-left">
+            <img src="my profile project/ai agent workflow.png" alt="Fernando T. Ibale Jr." class="avatar">
+            <div class="profile-info">
+                <h2>Fernando Ibale <i class="fa-solid fa-circle-check badge-icon"></i></h2>
+                <p>@fernando.ibale07 · Data Entry & MIS</p>
+            </div>
         </div>
-        <div class="download-bar-container">
-            <div class="download-bar" id="progressBar"></div>
-        </div>
-        <div class="download-sub" id="statusText">INITIALIZING SYSTEM INTERFACE</div>
+        <button class="theme-toggle-btn" id="themeToggle" aria-label="Toggle theme">
+            <i class="fa-solid fa-moon"></i>
+        </button>
     </div>
-</div>
 
-<div class="cursor-glow" id="cursorGlow"></div>
+    <!-- MAIN TAB SECTIONS -->
+    <!-- 1. HOME TAB -->
+    <div id="tab-home" class="tab-section active">
+        <div class="desktop-grid">
+            <div>
+                <!-- Hero Content -->
+                <h1 class="hero-title">Automate Data.<br><span>Run it seamlessly.</span></h1>
+                <p class="hero-description">
+                    Data Entry & MIS Professional specializing in Excel reporting, process automation, and certified n8n AI Agents.
+                </p>
 
-<!-- ==================== HERO / PROFILE ==================== -->
-<section class="hero" id="profile">
-    <div class="hero-tag">Portfolio Showcase</div>
-    <h1>Hello, I'm <span>Fernando T. Ibale Jr.</span></h1>
-    <p>
-        Data Entry & MIS Professional specializing in Excel reporting, process automation, and certified No-Code AI Agent development using n8n.
-    </p>
+                <!-- Stats Section -->
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <h3>MIS</h3>
+                        <p>EXPERT</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>n8n</h3>
+                        <p>CERTIFIED</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>GMT+8</h3>
+                        <p>PH BASED</p>
+                    </div>
+                </div>
+            </div>
 
-    <div class="hero-contacts">
-        <span><i class="fa-solid fa-location-dot"></i> Rizal, Philippines</span>
-        <span><i class="fa-solid fa-envelope"></i> fernando.ibale07@gmail.com</span>
-        <span><i class="fa-solid fa-phone"></i> +63 927 572 2285</span>
-    </div>
-</section>
+            <div>
+                <!-- Daily Drivers Widget -->
+                <div class="daily-drivers-card">
+                    <div class="card-tag">DAILY DRIVERS</div>
+                    <div class="card-title">Tools I work with</div>
 
-<!-- ==================== PROJECTS ==================== -->
-<section id="projects" style="padding: 4rem 0;">
-    <h2 class="section-title" data-aos="fade-up">Featured Projects</h2>
-    <p class="section-sub" data-aos="fade-up" data-aos-delay="100">Automated systems, customized portals, and CRM workflows.</p>
-
-    <div class="projects-grid">
-        <div class="project-card" data-tilt data-aos="fade-up" data-aos-delay="100"
-             data-title="AI Agent Workflow"
-             data-img="my profile project/ai agent workflow.png"
-             data-desc="Automated no-code AI assistant built with n8n for real-time query processing, internal tool routing, and automated response execution."
-             data-tags="n8n, Local LLM, Webhooks, Automation">
-            <img src="my profile project/ai agent workflow.png" alt="AI Agent Workflow">
-            <div class="project-info">
-                <h3>AI Agent Workflow</h3>
-                <p>Automated no-code AI assistant built with n8n for real-time query processing and local LLM chat execution.</p>
+                    <div class="tools-pill-container">
+                        <div class="tool-item">
+                            <i class="fa-solid fa-robot"></i>
+                            <span>n8n AI</span>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="tool-item">
+                            <i class="fa-solid fa-file-excel"></i>
+                            <span>Excel</span>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="tool-item">
+                            <i class="fa-solid fa-code"></i>
+                            <span>Automate</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="project-card" data-tilt data-aos="fade-up" data-aos-delay="200"
-             data-title="Admin Portal & Pipeline"
-             data-img="my profile project/adminportal.png"
-             data-desc="Dashboard interface designed for tracking deal pipelines, lead status validation, reporting metrics, and internal user access management."
-             data-tags="Dashboard, Pipeline, Lead Management, MIS">
-            <img src="my profile project/adminportal.png" alt="Admin Portal">
-            <div class="project-info">
-                <h3>Admin Portal & Pipeline</h3>
-                <p>Dashboard interface designed for tracking deal pipelines, lead status validation, and internal user access.</p>
-            </div>
+        <!-- Carousel Section -->
+        <div class="explore-header">
+            <h3>Featured Showcase</h3>
+            <span>Swipe / Click</span>
         </div>
 
-        <div class="project-card" data-tilt data-aos="fade-up" data-aos-delay="300"
-             data-title="Light CRM Interface"
-             data-img="my profile project/Light CRM.png"
-             data-desc="Streamlined customer relationship submission form designed to capture inbound leads, parse contact metadata, and calculate projected deal values."
-             data-tags="CRM, Web Form, Data Entry, Workflow">
-            <img src="my profile project/Light CRM.png" alt="Light CRM">
-            <div class="project-info">
-                <h3>Light CRM</h3>
-                <p>Streamlined customer relationship submission form designed to capture inbound leads and calculate deal values.</p>
+        <div class="carousel-container">
+            <!-- Card 1 -->
+            <div class="carousel-card" 
+                 data-title="AI Agent Workflow" 
+                 data-img="my profile project/ai agent workflow.png"
+                 data-desc="Automated no-code AI assistant built with n8n for real-time query processing and local LLM execution."
+                 data-tags="n8n, Local LLM, Webhooks">
+                <span class="badge-cyan">01 PROJECTS</span>
+                <img src="my profile project/ai agent workflow.png" alt="AI Agent Workflow">
             </div>
-        </div>
 
-        <div class="project-card" data-tilt data-aos="fade-up" data-aos-delay="400"
-             data-title="Ordering Workflow Pipeline"
-             data-img="my profile project/ordering workflow.png"
-             data-desc="End-to-end customer order placement pipeline featuring payment proof upload verification and instant record updates."
-             data-tags="Process Automation, Payments, Ordering System">
-            <img src="my profile project/ordering workflow.png" alt="Ordering Workflow">
-            <div class="project-info">
-                <h3>Ordering Workflow</h3>
-                <p>End-to-end customer order placement pipeline featuring payment proof upload verification.</p>
+            <!-- Card 2 -->
+            <div class="carousel-card" 
+                 data-title="Admin Portal & Pipeline" 
+                 data-img="my profile project/adminportal.png"
+                 data-desc="Dashboard interface designed for tracking deal pipelines, lead status validation, and internal user access."
+                 data-tags="Dashboard, MIS, Pipeline">
+                <span class="badge-purple">02 SERVICES</span>
+                <img src="my profile project/adminportal.png" alt="Admin Portal">
+            </div>
+
+            <!-- Card 3 -->
+            <div class="carousel-card" 
+                 data-title="Light CRM Interface" 
+                 data-img="my profile project/Light CRM.png"
+                 data-desc="Streamlined customer relationship submission form designed to capture inbound leads and calculate deal values."
+                 data-tags="CRM, Form, Automation">
+                <span class="badge-cyan">03 CRM</span>
+                <img src="my profile project/Light CRM.png" alt="Light CRM">
             </div>
         </div>
     </div>
-</section>
 
-<!-- ==================== PROJECT MODAL ==================== -->
-<div class="modal-overlay" id="projectModal">
-    <div class="modal-content">
-        <button class="modal-close" id="modalClose"><i class="fa-solid fa-xmark"></i></button>
-        <img src="" alt="Project Image" class="modal-img" id="modalImg">
-        <div class="modal-body">
-            <h2 id="modalTitle">Project Title</h2>
-            <div class="modal-tags" id="modalTags"></div>
-            <p id="modalDesc">Detailed description goes here...</p>
-            <a href="#projects" class="modal-btn" id="modalBtn">
-                <i class="fa-solid fa-arrow-up-right-from-square"></i> Explore Project Details
-            </a>
+    <!-- 2. WORK / PROJECTS TAB -->
+    <div id="tab-work" class="tab-section">
+        <h2 style="margin-bottom: 1rem;">All Work & Projects</h2>
+        <div class="service-list">
+            <div class="service-card carousel-card"
+                 data-title="AI Agent Workflow" 
+                 data-img="my profile project/ai agent workflow.png"
+                 data-desc="Automated no-code AI assistant built with n8n for real-time query processing and local LLM execution."
+                 data-tags="n8n, Local LLM, Webhooks"
+                 style="height: auto; padding: 1.2rem;">
+                <h4>01. AI Agent Workflow</h4>
+                <p>Click to view complete details on the n8n automation pipeline.</p>
+            </div>
+            <div class="service-card carousel-card"
+                 data-title="Admin Portal & Pipeline" 
+                 data-img="my profile project/adminportal.png"
+                 data-desc="Dashboard interface designed for tracking deal pipelines, lead status validation, and internal user access."
+                 data-tags="Dashboard, MIS, Pipeline"
+                 style="height: auto; padding: 1.2rem;">
+                <h4>02. Admin Portal & Pipeline</h4>
+                <p>Click to inspect tracking metrics and lead validation systems.</p>
+            </div>
+            <div class="service-card carousel-card"
+                 data-title="Light CRM Interface" 
+                 data-img="my profile project/Light CRM.png"
+                 data-desc="Streamlined customer relationship submission form designed to capture inbound leads and calculate deal values."
+                 data-tags="CRM, Form, Automation"
+                 style="height: auto; padding: 1.2rem;">
+                <h4>03. Light CRM Interface</h4>
+                <p>Click to inspect inbound lead capture systems.</p>
+            </div>
         </div>
     </div>
-</div>
 
-<!-- ==================== SKILLS & EXPERIENCE ==================== -->
-<section id="skills" style="padding: 4rem 0; background: rgba(22, 31, 46, 0.3);">
-    <h2 class="section-title" data-aos="fade-up">Skills & Expertise</h2>
-    <p class="section-sub" data-aos="fade-up">Core tools and operational knowledge.</p>
-
-    <div class="skills-container">
-        <div class="skill-box" data-aos="fade-up" data-aos-delay="100">
-            <i class="fa-solid fa-file-excel"></i>
-            <h4>Spreadsheet Management</h4>
-            <p>Advanced MS Excel, Google Sheets, PivotTables, VLOOKUP/XLOOKUP, & Data Validation.</p>
-        </div>
-        <div class="skill-box" data-aos="fade-up" data-aos-delay="200">
-            <i class="fa-solid fa-robot"></i>
-            <h4>Automation & AI</h4>
-            <p>Certified n8n No-Code AI Agent Builder, Power Automate, and workflow pipelines.</p>
-        </div>
-        <div class="skill-box" data-aos="fade-up" data-aos-delay="300">
-            <i class="fa-solid fa-chart-line"></i>
-            <h4>MIS & Reporting</h4>
-            <p>Daily/Weekly/Monthly reporting, data maintenance, and cross-departmental coordination.</p>
+    <!-- 3. SERVICES TAB -->
+    <div id="tab-services" class="tab-section">
+        <h2 style="margin-bottom: 1rem;">Core Services</h2>
+        <div class="service-list">
+            <div class="service-card">
+                <h4><i class="fa-solid fa-file-excel"></i> Spreadsheet & Data Management</h4>
+                <p>Advanced MS Excel, Google Sheets, PivotTables, VLOOKUP/XLOOKUP, and automated validation setup.</p>
+            </div>
+            <div class="service-card">
+                <h4><i class="fa-solid fa-robot"></i> No-Code AI Agent Workflows</h4>
+                <p>Certified n8n automation pipelines, webhooks, LLM integration, and automatic query resolution.</p>
+            </div>
+            <div class="service-card">
+                <h4><i class="fa-solid fa-chart-line"></i> MIS & Executive Reporting</h4>
+                <p>Daily, weekly, and monthly tracking reporting with cross-departmental record synchronization.</p>
+            </div>
         </div>
     </div>
-</section>
 
-<!-- ==================== FIXED BOTTOM NAVBAR ==================== -->
-<nav class="bottom-nav">
-    <div class="logo">Fernando Ibale</div>
-    <ul>
-        <li><a href="#profile">Profile</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#skills">Skills</a></li>
-    </ul>
-    <button class="theme-btn" id="themeToggle">
-        <i class="fa-solid fa-moon"></i> <span>Dark</span>
+    <!-- 4. ABOUT TAB -->
+    <div id="tab-about" class="tab-section">
+        <h2 style="margin-bottom: 1rem;">About Me</h2>
+        <div class="service-card" style="line-height: 1.7;">
+            <p style="margin-bottom: 1rem;">Hello! I am <strong>Fernando T. Ibale Jr.</strong>, a dedicated Data Entry and MIS Specialist based in the Philippines.</p>
+            <p style="margin-bottom: 1rem;">I bridge administrative operations with intelligent automation—building optimized workflows using Excel, Power Automate, and n8n AI systems.</p>
+            <p><strong>Contact:</strong> fernando.ibale07@gmail.com | +63 927 572 2285</p>
+        </div>
+    </div>
+
+    <!-- Floating Accessibility Button -->
+    <button class="accessibility-btn" id="accessBtn" aria-label="Accessibility Option">
+        <i class="fa-solid fa-universal-access"></i>
     </button>
-</nav>
 
-<footer>
-    <p>© 2026 Fernando T. Ibale Jr. — Portfolio</p>
-</footer>
+    <!-- ---------- Bottom Navigation Bar ---------- -->
+    <nav class="bottom-nav">
+        <button class="nav-item active" data-tab="tab-home">
+            <i class="fa-solid fa-house"></i>
+            <span>Home</span>
+        </button>
+        <button class="nav-item" data-tab="tab-work">
+            <i class="fa-regular fa-folder"></i>
+            <span>Work</span>
+        </button>
+        <a href="mailto:fernando.ibale07@gmail.com" class="nav-fab" aria-label="Contact Email">
+            <i class="fa-regular fa-envelope"></i>
+        </a>
+        <button class="nav-item" data-tab="tab-services">
+            <i class="fa-solid fa-layer-group"></i>
+            <span>Services</span>
+        </button>
+        <button class="nav-item" data-tab="tab-about">
+            <i class="fa-regular fa-user"></i>
+            <span>About</span>
+        </button>
+    </nav>
 
-<!-- -------------- Scripts -------------- -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-<script>
-    // Download Progress Animation Simulation
-    let currentProgress = 0;
-    const progressBar = document.getElementById('progressBar');
-    const percentText = document.getElementById('percentText');
-    const statusText = document.getElementById('statusText');
+    <!-- ---------- Project Modal ---------- -->
+    <div class="modal-overlay" id="projectModal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose" aria-label="Close modal"><i class="fa-solid fa-xmark"></i></button>
+            <img src="" alt="Project Image" class="modal-img" id="modalImg">
+            <div class="modal-body">
+                <h2 id="modalTitle">Project Title</h2>
+                <p id="modalDesc">Detailed description goes here...</p>
+                <div class="modal-tags" id="modalTags"></div>
+            </div>
+        </div>
+    </div>
 
-    const downloadInterval = setInterval(() => {
-        currentProgress += Math.floor(Math.random() * 4) + 2; 
-        if (currentProgress > 100) currentProgress = 100;
+    <script>
+        // --- 1. Tab Navigation Routing ---
+        const navItems = document.querySelectorAll('.nav-item');
+        const tabSections = document.querySelectorAll('.tab-section');
 
-        progressBar.style.width = currentProgress + '%';
-        percentText.textContent = currentProgress + '%';
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const targetTab = item.getAttribute('data-tab');
 
-        if (currentProgress > 30 && currentProgress < 65) {
-            statusText.textContent = "LOADING INTERACTIVE MODULES...";
-        } else if (currentProgress >= 65 && currentProgress < 95) {
-            statusText.textContent = "VERIFYING PORTFOLIO ASSETS...";
-        } else if (currentProgress >= 95) {
-            statusText.textContent = "LAUNCHING INTERFACE...";
-        }
+                // Toggle active navbar tab
+                navItems.forEach(nav => nav.classList.remove('active'));
+                item.classList.add('active');
 
-        if (currentProgress === 100) {
-            clearInterval(downloadInterval);
-            setTimeout(completeLoading, 600);
-        }
-    }, 180);
+                // Switch section views
+                tabSections.forEach(section => {
+                    if (section.id === targetTab) {
+                        section.classList.add('active');
+                    } else {
+                        section.classList.remove('active');
+                    }
+                });
 
-    function completeLoading() {
-        gsap.to("#loader", {
-            duration: 1.0,
-            opacity: 0,
-            pointerEvents: "none",
-            onComplete: () => {
-                document.getElementById("loader").style.display = "none";
-                document.body.style.overflow = "auto";
-
-                AOS.init({ once: true, duration: 800 });
-
-                gsap.from(".hero-tag", { opacity: 0, y: -20, duration: 0.6 });
-                gsap.from(".hero h1", { opacity: 0, y: 30, duration: 0.8, delay: 0.2 });
-                gsap.from(".hero p", { opacity: 0, y: 30, duration: 0.8, delay: 0.4 });
-                gsap.from(".hero-contacts", { opacity: 0, y: 20, duration: 0.6, delay: 0.6 });
-            }
-        });
-    }
-
-    // Modal Interaction
-    const projectCards = document.querySelectorAll('.project-card');
-    const projectModal = document.getElementById('projectModal');
-    const modalClose = document.getElementById('modalClose');
-    const modalImg = document.getElementById('modalImg');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalDesc = document.getElementById('modalDesc');
-    const modalTags = document.getElementById('modalTags');
-
-    projectCards.forEach(card => {
-        card.addEventListener('click', () => {
-            const title = card.getAttribute('data-title');
-            const img = card.getAttribute('data-img');
-            const desc = card.getAttribute('data-desc');
-            const tags = card.getAttribute('data-tags').split(',');
-
-            modalTitle.textContent = title;
-            modalImg.src = img;
-            modalDesc.textContent = desc;
-            
-            modalTags.innerHTML = '';
-            tags.forEach(tag => {
-                const tagEl = document.createElement('span');
-                tagEl.className = 'modal-tag';
-                tagEl.textContent = tag.trim();
-                modalTags.appendChild(tagEl);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             });
-
-            projectModal.classList.add('active');
         });
-    });
 
-    modalClose.addEventListener('click', () => {
-        projectModal.classList.remove('active');
-    });
+        // --- 2. Interactive Project Cards / Modal Handler ---
+        const cards = document.querySelectorAll('.carousel-card');
+        const modal = document.getElementById('projectModal');
+        const modalClose = document.getElementById('modalClose');
+        const modalImg = document.getElementById('modalImg');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalDesc = document.getElementById('modalDesc');
+        const modalTags = document.getElementById('modalTags');
 
-    projectModal.addEventListener('click', (e) => {
-        if (e.target === projectModal) {
-            projectModal.classList.remove('active');
-        }
-    });
+        cards.forEach(card => {
+            card.addEventListener('click', () => {
+                const title = card.getAttribute('data-title');
+                const img = card.getAttribute('data-img');
+                const desc = card.getAttribute('data-desc');
+                const tagsAttr = card.getAttribute('data-tags');
 
-    // Cursor Follower
-    const cursor = document.getElementById('cursorGlow');
-    window.addEventListener('mousemove', (e) => {
-        cursor.style.left = e.clientX + 'px';
-        cursor.style.top = e.clientY + 'px';
-    });
+                if (title && img && desc) {
+                    modalTitle.textContent = title;
+                    modalImg.src = img;
+                    modalDesc.textContent = desc;
 
-    // Dark/Light Theme Switcher
-    const themeBtn = document.getElementById('themeToggle');
-    const root = document.documentElement;
+                    modalTags.innerHTML = '';
+                    if (tagsAttr) {
+                        const tags = tagsAttr.split(',');
+                        tags.forEach(tag => {
+                            const span = document.createElement('span');
+                            span.className = 'modal-tag';
+                            span.textContent = tag.trim();
+                            modalTags.appendChild(span);
+                        });
+                    }
 
-    themeBtn.addEventListener('click', () => {
-        const isDark = root.getAttribute('data-theme') === 'dark';
-        const nextTheme = isDark ? 'light' : 'dark';
-        root.setAttribute('data-theme', nextTheme);
-        themeBtn.querySelector('span').textContent = nextTheme === 'dark' ? 'Dark' : 'Light';
-        themeBtn.querySelector('i').className = nextTheme === 'dark' ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
-    });
-</script>
+                    modal.classList.add('active');
+                }
+            });
+        });
 
+        modalClose.addEventListener('click', () => modal.classList.remove('active'));
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) modal.classList.remove('active');
+        });
+
+        // --- 3. Theme Switcher Button ---
+        const themeBtn = document.getElementById('themeToggle');
+        const root = document.documentElement;
+
+        themeBtn.addEventListener('click', () => {
+            const isDark = root.getAttribute('data-theme') === 'dark';
+            const nextTheme = isDark ? 'light' : 'dark';
+            root.setAttribute('data-theme', nextTheme);
+            themeBtn.querySelector('i').className = nextTheme === 'dark' ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
+        });
+
+        // --- 4. Accessibility Floating Button ---
+        const accessBtn = document.getElementById('accessBtn');
+        accessBtn.addEventListener('click', () => {
+            const currentSize = parseFloat(window.getComputedStyle(document.body).fontSize);
+            document.body.style.fontSize = currentSize >= 18 ? '16px' : (currentSize + 1) + 'px';
+        });
+    </script>
 </body>
 </html>
